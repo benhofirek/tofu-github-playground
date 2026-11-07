@@ -4,10 +4,18 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 6.0"
     }
+
+    github = {
+      source  = "integrations/github"
+      version = "~> 6.0"
+    }
   }
 }
 
-# Configure the AWS Provider
+provider "github" {
+  owner = var.owner
+}
+
 provider "aws" {
   region = var.aws_region
 }

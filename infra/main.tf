@@ -9,9 +9,3 @@ terraform {
     use_lockfile = true
   }
 }
-
-language {
-  compatible_with {
-    opentofu = ">= 1.13"
-  }
-}

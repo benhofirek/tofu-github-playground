@@ -13,3 +13,8 @@ variable "state_bucket_key_prefix" {
   description = "Name of the S3 bucket key prefix for Terraform state"
   type        = string
 }
+
+variable "owner" {
+  description = "Name of github repository owner"
+  type        = string
+}
