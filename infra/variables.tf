@@ -18,3 +18,12 @@ variable "owner" {
   description = "Name of github repository owner"
   type        = string
 }
+
+variable "repository_name" {
+  description = "Name of github repository owner"
+  type        = string
+}
+
+locals {
+  state_key = "${var.state_bucket_key_prefix}/terraform.tfs"
+}
