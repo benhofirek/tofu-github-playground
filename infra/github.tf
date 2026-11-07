@@ -18,6 +18,35 @@ resource "github_repository" "this" {
   }
 }
 
+resource "github_actions_variable" "aws_region" {
+  repository    = github_repository.this.name
+  variable_name = "AWS_REGION"
+  value         = var.aws_region
+}
+
+resource "github_actions_variable" "opentofu_version" {
+  repository    = github_repository.this.name
+  variable_name = "TF_VERSION"
+  value         = var.opentofu_version
+}
+
+resource "github_actions_repository_permissions" "this" {
+  repository      = github_repository.this.name
+  allowed_actions = "selected"
+  allowed_actions_config {
+    github_owned_allowed = true
+    verified_allowed     = true
+    patterns_allowed     = ["opentofu/setup-opentofu@*"]
+  }
+  sha_pinning_required = true
+}
+
+resource "github_workflow_repository_permissions" "this" {
+  default_workflow_permissions     = "read"
+  can_approve_pull_request_reviews = false
+  repository                       = github_repository.this.name
+}
+
 resource "github_branch" "main" {
   repository = github_repository.this.name
   branch     = "main"
