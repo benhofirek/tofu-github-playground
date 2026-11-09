@@ -65,6 +65,11 @@ resource "github_branch" "development" {
   }
 }
 
+resource "github_branch" "staging" {
+  repository = github_repository.this.name
+  branch     = "development"
+}
+
 resource "github_branch_default" "default" {
   repository = github_repository.this.name
   branch     = github_branch.main.branch
