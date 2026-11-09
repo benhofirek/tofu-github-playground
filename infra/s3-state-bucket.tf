@@ -13,7 +13,7 @@ resource "aws_s3_bucket" "terraform_state" {
 }
 
 # Enable versioning
-resource "aws_s3_bucket_versioning" "terraform_state_versioning" {
+resource "aws_s3_bucket_versioning" "terraform_state" {
   bucket = aws_s3_bucket.terraform_state.id
 
   versioning_configuration {
@@ -21,7 +21,7 @@ resource "aws_s3_bucket_versioning" "terraform_state_versioning" {
   }
 }
 
-resource "aws_s3_bucket_lifecycle_configuration" "terraform_state_versioning_bucket_config" {
+resource "aws_s3_bucket_lifecycle_configuration" "terraform_state" {
   depends_on = [aws_s3_bucket_versioning.terraform_state_versioning]
 
   bucket = aws_s3_bucket.terraform_state.bucket
