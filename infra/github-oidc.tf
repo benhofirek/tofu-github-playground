@@ -60,6 +60,17 @@ data "aws_iam_policy_document" "github_assume_role_main" {
   }
 }
 
+resource "aws_iam_role" "github_actions_main" {
+  name               = "github-actions-tofu-main"
+  assume_role_policy = data.aws_iam_policy_document.github_assume_role_main.json
+}
+
+resource "github_actions_secret" "aws_role_arn_main" {
+  repository  = github_repository.this.name
+  secret_name = "AWS_ROLE_ARN_MAIN"
+  value       = aws_iam_role.github_actions_main.arn
+}
+
 # --------------------------------------------------
 # Pull request trust policy
 # --------------------------------------------------
@@ -86,17 +97,6 @@ data "aws_iam_policy_document" "github_assume_role_pr" {
       values   = [local.github_oidc_subject_pr]
     }
   }
-}
-
-resource "aws_iam_role" "github_actions_main" {
-  name               = "github-actions-tofu-main"
-  assume_role_policy = data.aws_iam_policy_document.github_assume_role_main.json
-}
-
-resource "github_actions_secret" "aws_role_arn_main" {
-  repository  = github_repository.this.name
-  secret_name = "AWS_ROLE_ARN_MAIN"
-  value       = aws_iam_role.github_actions_main.arn
 }
 
 resource "aws_iam_role" "github_actions_pr" {
@@ -153,12 +153,17 @@ data "aws_iam_policy_document" "main_state_access" {
     effect = "Allow"
 
     actions = [
-      "iam:Get*",
-      "iam:List*"
+      "iam:GetRole",
+      "iam:ListRolePolicies",
+      "iam:GetRolePolicy",
+      "iam:ListAttachedRolePolicies",
+      "iam:GetPolicy",
+      "iam:GetPolicyVersion"
     ]
 
     resources = [
-      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/github-actions-tofu-state"
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/github-actions-tofu-*",
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/*"
     ]
   }
 

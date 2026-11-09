@@ -34,6 +34,13 @@ variable "opentofu_version" {
   default     = 1.13
 }
 
+variable "github_token" {
+  description = "Github token to use"
+  type        = string
+  sensitive   = true
+  ephemeral   = true
+}
+
 locals {
   state_key = "${var.state_bucket_key_prefix}/terraform.tfstate"
 }

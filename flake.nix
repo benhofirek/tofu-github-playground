@@ -19,9 +19,13 @@
           awscli2
           tflint
           trivy
+          github-cli
           #terratest
         ];
+
+        shellHook = ''
+          export TF_VAR_github_token="$(gh auth token)"
+        '';
       };
     };
 }
-
