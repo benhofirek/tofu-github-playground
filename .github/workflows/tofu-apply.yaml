@@ -42,6 +42,8 @@ jobs:
       - name: OpenTofu init
         id: init
         run: tofu init
+        env:
+          TF_VAR_github_token: ${{ secrets.GH_PAT }}
 
       - name: OpenTofu Apply
         run: tofu apply -auto-approve -input=false
