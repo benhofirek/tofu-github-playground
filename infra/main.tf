@@ -1,9 +1,9 @@
 terraform {
-  required_version = ">= 1.13"
+  required_version = ">= ${var.opentofu_version}"
 
   backend "s3" {
     bucket       = var.state_bucket_name
-    key          = "${var.state_bucket_key_prefix}/terraform.tfstate"
+    key          = local.state_key
     region       = var.aws_region
     encrypt      = true
     use_lockfile = true
