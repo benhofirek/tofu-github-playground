@@ -67,7 +67,7 @@ resource "github_branch" "development" {
 
 resource "github_branch" "staging" {
   repository = github_repository.this.name
-  branch     = "development"
+  branch     = "staging"
 }
 
 resource "github_branch_default" "default" {
