@@ -7,6 +7,10 @@ on:
     paths:
       - infra/**
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   opentofu:
     name: "Plan Github repository update"
